@@ -1,0 +1,25 @@
+<header class="bg-black text-white flex justify-between items-center p-2">
+  <h1 class="text-2xl font-bold">{{ title }}</h1>
+
+  <nav class="flex gap-2">
+    <ng-container *ngIf="(isLoggedIn$ | async) === false; else loggedIn">
+      <a routerLink="/login" routerLinkActive="active">Login</a>
+    </ng-container>
+    <ng-template #loggedIn>
+      <a routerLink="/profile" routerLinkActive="active">Profile</a>
+      <button type="button" (click)="onLogout()" routerLinkActive="active">Logout</button>
+    </ng-template>
+  </nav>
+</header>
+
+<main class="p-2">
+  <router-outlet />
+</main>
+
+<footer class="bg-black text-white flex justify-around items-center p-2">
+  <img
+  src="assets/banner.png"
+  alt="Your Car Your Way"
+  class="object-cover w-96"
+  />
+</footer>
