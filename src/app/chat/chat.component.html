@@ -1,0 +1,22 @@
+<section class="flex-1 flex flex-col mt-2 justify-between border rounded-sm border-brand-blue">
+  <h2 class="text-xl p-2 border-b border-b-brand-blue bg-brand-blue/20">Chat with <span class="capitalize font-medium">{{recipientId}}</span></h2>
+  <div class="flex-1 flex flex-col justify-between bg-white">
+    <div class="flex-1 h-full max-h-full overflow-y-auto bg-white flex flex-col p-2 gap-2">
+      <div class="flex" *ngFor="let message of messages" [ngClass]="{'justify-end': message.senderId === currentUserId, 'justify-start': message.senderId !== currentUserId}">
+        <div class="flex flex-col w-fit max-w-[70%]  p-1 rounded-sm" [ngClass]="{'bg-brand-blue/70': message.senderId === currentUserId, 'bg-brand-orange/85': message.senderId !== currentUserId}">
+          <div class="flex gap-2 items-center">
+            <span class="bg-white p-1 rounded-sm">{{message.senderId}}</span>
+            <span class="text-xs">{{ message.timestamp | date }}</span>
+          </div>
+          <p class="flex flex-col">{{ message.content }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="flex p-2 gap-3 bg-brand-orange/55">
+      <label for="newMessage" class="sr-only">Type a message</label>
+      <input id="newMessage" class="flex-1 p-2 border rounded-sm" [(ngModel)]="newMessage" placeholder="Type a message..." />
+      <button class="p-2 border-transparent rounded-sm bg-brand-blue hover:bg-brand-blue/90 text-white cursor-pointer" (click)="sendMessage()">Send</button>
+    </div>
+  </div>
+  </section>
+

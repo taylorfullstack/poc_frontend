@@ -1,5 +1,5 @@
-<section>
-<h2>Welcome, {{ username }} 👋</h2>
-<p>Here you can see the protected content.</p>
+<section class="h-full flex-1 flex flex-col">
+<h2 class="text-xl">Welcome, <span class="capitalize">{{ username }}</span> 👋</h2>
+<app-user-list [currentUsername]="username" [currentUserRole]="role"></app-user-list>
 <router-outlet></router-outlet>
 </section>

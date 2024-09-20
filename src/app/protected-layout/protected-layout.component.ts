@@ -1,52 +1,53 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SessionService } from '../session.service';
+import { SessionService } from '../services/session.service';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
+import { ChatComponent } from '../chat/chat.component';
+import { UserListComponent } from '../chat/userlist.component';
+import { switchMap, catchError, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-protected-layout',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, ChatComponent, UserListComponent],
   templateUrl: './protected-layout.component.html',
   styleUrls: ['./protected-layout.component.css']
 })
 export class ProtectedLayoutComponent implements OnInit, OnDestroy {
   username: string = '';
+  role: string = '';
   private userProfileSubscription: Subscription | null = null;
-  private fetchUserProfileSubscription: Subscription | null = null;;
 
   constructor(private sessionService: SessionService) {}
 
   ngOnInit(): void {
-    this.userProfileSubscription = this.sessionService.getUserProfile().subscribe({
-      next: (user) => {
-        if (user && user.username) {
+    this.userProfileSubscription = this.sessionService.getUserProfile().pipe(
+      switchMap(user => {
+        if (user && user.username && user.role) {
           this.username = user.username;
+          this.role = user.role;
+          return of(null);
         } else {
-          // If user or username is null or empty, fetch it from the backend
-          this.fetchUserProfileSubscription = this.sessionService.fetchUserProfile().subscribe({
-            next: (profile) => {
-              this.username = profile.username;
-            },
-            error: (error) => {
-              console.error('Failed to fetch user profile', error);
-            }
-          });
+          return this.sessionService.fetchUserProfile();
         }
-      },
-      error: (error) => {
-        console.error('Error fetching user profile', error);
+      }),
+      catchError(_error => {
+        return of(null);
+      }),
+      finalize(() => {
+        this.username = '';
+        this.role = '';
+      })
+    ).subscribe(profile => {
+      if (profile) {
+        this.username = profile.username;
+        this.role = profile.role;
       }
     });
   }
 
   ngOnDestroy(): void {
-    if (this.userProfileSubscription) {
-      this.userProfileSubscription.unsubscribe();
-    }
-    if (this.fetchUserProfileSubscription) {
-      this.fetchUserProfileSubscription.unsubscribe();
-    }
+    this.userProfileSubscription?.unsubscribe();
   }
 }

@@ -6,7 +6,7 @@
       <a routerLink="/login" routerLinkActive="active">Login</a>
     </ng-container>
     <ng-template #loggedIn>
-      <a routerLink="/profile" routerLinkActive="active">Profile</a>
+      <a (click)="navigateToProfile()" routerLink="/profile" routerLinkActive="active">Profile</a>
       <button type="button" (click)="onLogout()" routerLinkActive="active">Logout</button>
     </ng-template>
   </nav>
@@ -20,6 +20,6 @@
   <img
   src="assets/banner.png"
   alt="Your Car Your Way"
-  class="object-cover w-96"
+  class="object-cover w-48"
   />
 </footer>
