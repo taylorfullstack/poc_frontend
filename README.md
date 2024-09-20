@@ -1,29 +1,42 @@
-# PocFrontend
+# Your Car Your Way - Frontend
 
-YOUR CAR YOUR WAY
+## Description
+The project is the frontend for a proof of concept, for the OpenClassrooms project "Définissez une solution fonctionnelle et concevez l’architecture d’une application."
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.4.
+## Prerequisites
+Before you begin, ensure you have installed:
 
-## Development server
+- [NodeJS (**version 20.11.1**)](https://nodejs.org/en/)
+- [NPM (**version 10.8.3**)](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+- [Angular CLI](https://github.com/angular/angular-cli)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Backend installation and launch
 
-## Code scaffolding
+### 1. Follow the instructions [here in the ReadMe for the backend](https://github.com/taylorfullstack/poc_backend/blob/main/README.md)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Frontend installation and launch
 
-## Build
+### 1. Clone the repository
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+git clone https://github.com/taylorfullstack/poc_frontend.git
+```
 
-## Running unit tests
+### 2. Install the frontend dependencies
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+npm install
+```
 
-## Running end-to-end tests
+### 3. Launch the frontend of the application
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+ng serve
+```
 
-## Further help
+The application will launch in your browser at `http://localhost:4200`.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### 4. Connect to Your Car Your Way
+
+You may now connect using the [test user credentials](https://github.com/taylorfullstack/poc_backend/blob/main/README.md#test-users).
+
