@@ -29,9 +29,18 @@ export class AuthService {
       );
   }
 
-  logout() {
-    localStorage.removeItem('authToken');
-    this.authState.next(false);
+  logout(): Observable<any> {
+    return this.http.post<any>(environment.apiUrl + '/logout', {}).pipe(
+        tap(response => {
+            if (response.success) {
+                localStorage.removeItem('authToken');
+                this.authState.next(false);
+            }
+        }),
+        catchError(error => {
+            return throwError(() => new Error(error.message || 'Server error'));
+        })
+    );
   }
 
   getToken(): string | null {
