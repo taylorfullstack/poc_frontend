@@ -1,31 +1,41 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from './auth/auth.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, CommonModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'Your Car Your Way';
-  items = [
-    { title: 'Explore the Docs', link: 'https://angular.dev' },
-  ];
-  isLoggedIn$: Observable<boolean>;
+  isLoggedIn$: Observable<boolean> = of(false);
 
-  constructor(public authService: AuthService, private router: Router) {
+  constructor(public authService: AuthService, private router: Router) {}
+
+  ngOnInit() {
     this.isLoggedIn$ = this.authService.getAuthState();
   }
 
-  ngOnInit() {}
+  ngOnDestroy() {
+    this.isLoggedIn$ = of(false);
+  }
+
+  navigateToProfile() {
+    this.router.navigate(['/profile']);
+  }
 
   onLogout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+    this.authService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
+      },
+      error: (_err) => {
+      }
+    });
   }
 }
