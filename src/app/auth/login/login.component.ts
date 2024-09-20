@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { SessionService } from '../../session.service';
+import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +17,9 @@ export class LoginComponent {
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService, private sessionService: SessionService, private router: Router) {}
+  constructor(private authService: AuthService,
+    private sessionService: SessionService,
+    private router: Router) {}
 
   login() {
     this.authService.login(this.email, this.password).subscribe({
@@ -26,31 +28,13 @@ export class LoginComponent {
           next: (): void => {
             this.router.navigate(['/profile']);
           },
-          error: (error: unknown): void => {
-            console.error('Failed to fetch user profile', error);
+          error: (_error: unknown): void => {
           }
         });
       },
       error: (error) => {
-        console.log(error.message);
-        console.error('Login failed', error);
         this.errorMessage = error.message;
       }
     });
   }
-
-  // constructor(private authService: AuthService, private router: Router) {}
-
-  // login() {
-  //   this.authService.login(this.email, this.password).subscribe({
-  //     next: () => {
-  //       this.router.navigate(['/profile']);
-  //     },
-  //     error: (error) => {
-  //       console.log(error.message);
-  //       console.error('Login failed', error);
-  //       this.errorMessage = error.message;
-  //     }
-  //   });
-  // }
 }
